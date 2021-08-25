@@ -7,7 +7,7 @@ const formsErrorReduce = (state = initialStore, action) => {
     case SET_ERROR:
       return { ...state, ...action.error };
     case ERROR_CLEAR:
-      return {};
+      return initialStore;
 
     default:
       return { ...state };

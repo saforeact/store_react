@@ -6,7 +6,7 @@ import { AuthForm } from "../forms";
 import useStyles from "./ModalSignStyle";
 const ModalSign = ({ open = false, handleClose = () => {} }) => {
   const classes = useStyles();
-  const [selectForm, setSelectForm] = useState("in");
+  const [isSelectFormSignIn, setIsSelectFormSignIn] = useState(true);
   const transition = useTransition(open, {
     from: { x: -800, y: -800, opacity: 0 },
     enter: { x: 0, y: 0, opacity: 1 },
@@ -20,26 +20,29 @@ const ModalSign = ({ open = false, handleClose = () => {} }) => {
           <Box>
             <Box className={classes.center}>
               <Button
-                onClick={() => setSelectForm("in")}
+                onClick={() => setIsSelectFormSignIn(true)}
                 className={classNames(
                   classes.btn,
-                  selectForm === "in" ? classes.btn__active : null
+                  isSelectFormSignIn ? classes.btn__active : null
                 )}
               >
                 SignIn
               </Button>
               <Button
-                onClick={() => setSelectForm("up")}
+                onClick={() => setIsSelectFormSignIn(false)}
                 className={classNames(
                   classes.btn,
-                  selectForm === "up" ? classes.btn__active : null
+                  !isSelectFormSignIn ? classes.btn__active : null
                 )}
               >
                 SingUp
               </Button>
             </Box>
             <Box className={classes.form}>
-              <AuthForm selectForm={selectForm} />
+              <AuthForm
+                selectForm={isSelectFormSignIn}
+                handleClose={handleClose}
+              />
             </Box>
           </Box>
         </animated.div>

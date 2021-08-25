@@ -2,9 +2,11 @@ const { User } = require("../models");
 const Bcrypt = require("../utils/Bcrypt");
 
 const Token = require("../utils/Token");
+
 class AuthController {
   async registrationUser(req, res) {
     const { email, password } = req.body;
+    console.log(`req`, req);
     const candidate = await User.findOne({ email });
     if (candidate) {
       return res.status(409).json({ message: "Such a user already exists" });

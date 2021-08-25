@@ -13,6 +13,6 @@ export default makeStyles({
     gap: 25,
   },
   app_sideBar: {
-    width: 150,
+    width: 200,
   },
 });

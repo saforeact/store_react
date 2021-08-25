@@ -1,61 +1,51 @@
-import { Button, TextField } from "@material-ui/core";
-import React, { useState } from "react";
-import useStyles from "./AuthStyles";
+import { TextField } from "@material-ui/core";
+import React from "react";
 import { useDispatch } from "react-redux";
+import useInput from "../../../../hooks/useInput";
 import {
   signInAction,
   signUpAction,
 } from "../../../../redux/actions/authActions";
-const SignIn = ({ selectForm }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+import EmptyForm from "../EmptyForm/EmptyForm";
 
-  const onSubmitHendler = (e) => {
-    e.preventDefault();
-    if (selectForm === "in") {
-      const { confirmPassword, ...signInForm } = form;
-      dispatch(signInAction(signInForm));
+const SignIn = ({ selectForm, handleClose }) => {
+  const dispatch = useDispatch();
+
+  const email = useInput("");
+  const password = useInput("");
+  const confirmPassword = useInput("");
+
+  const onSubmitHendler = () => {
+    if (selectForm) {
+      const form = { email: email.value, password: password.value };
+      dispatch(signInAction(form));
+      handleClose();
     }
-    if (selectForm === "up") {
-      if (form.password !== form.confirmPassword) {
+    if (!selectForm) {
+      if (password.value !== confirmPassword.value) {
         return;
       }
-      dispatch(signUpAction(form));
+
+      dispatch(
+        signUpAction({
+          email: email.value,
+          password: password.value,
+        })
+      );
     }
   };
 
-  const setFormHendler = (e) => {
-    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
-  };
   return (
-    <form onSubmit={onSubmitHendler} className={classes.form}>
-      <TextField
-        name="email"
-        placeholder="Email"
-        onChange={setFormHendler}
-        value={form.email}
-      />
-      <TextField
-        name="password"
-        placeholder="Password"
-        onChange={setFormHendler}
-        value={form.password}
-      />
-      {selectForm === "up" && (
-        <TextField
-          name="confirmPassword"
-          placeholder="Confirm password"
-          onChange={setFormHendler}
-          value={form.confirmPassword}
-        />
+    <EmptyForm
+      onSubmitHendler={onSubmitHendler}
+      submitText={selectForm ? "Login" : "Register"}
+    >
+      <TextField placeholder="Email" {...email} />
+      <TextField placeholder="Password" {...password} />
+      {!selectForm && (
+        <TextField placeholder="Confirm password" {...confirmPassword} />
       )}
-      <Button type="submit">Login</Button>
-    </form>
+    </EmptyForm>
   );
 };
 

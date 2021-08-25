@@ -1,16 +1,18 @@
 import { Box, Button, Container, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import { isEmpty } from "lodash";
+import React from "react";
+import { Avatar } from "..";
 import { ModalSign } from "../UI";
-
 import NavMenu from "./common/NavMenu/NavMenu.jsx";
 import useStyles from "./HeaderStyle.js";
-
-const Header = () => {
+const Header = ({
+  setOpenHendler,
+  openModalSign,
+  setOpenModalSignHendler,
+  user,
+}) => {
   const classes = useStyles();
-  const [openModalSign, setOpenModalSign] = useState(false);
-  const setOpenModalSignHendler = () => {
-    setOpenModalSign(!openModalSign);
-  };
+
   return (
     <Box className={classes.headerWrapper}>
       <ModalSign open={openModalSign} handleClose={setOpenModalSignHendler} />
@@ -24,13 +26,19 @@ const Header = () => {
             <Typography>9:00 — 18:00</Typography>
           </Box>
           <Box className={classes.sign}>
-            <Button className={classes.btn} onClick={setOpenModalSignHendler}>
-              Войти / Регистрация
-            </Button>
+            {isEmpty(user) ? (
+              <Button className={classes.btn} onClick={setOpenModalSignHendler}>
+                Войти / Регистрация
+              </Button>
+            ) : (
+              <Avatar />
+            )}
           </Box>
         </Box>
         <Box className={classes.down}>
-          <Box>LOGO</Box>
+          <Box>
+            <span onClick={setOpenHendler}>LOGO</span>
+          </Box>
           <NavMenu />
         </Box>
       </Container>

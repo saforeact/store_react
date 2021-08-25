@@ -1,5 +1,9 @@
 //auth
 export const SET_AUTH = "SET_AUTH";
+//user
+export const GET_USER = "GET_USER";
+export const SET_USER = "SET_USER";
+export const SET_LOADING = "SET_LOADING";
 
 //error
 export const SET_ERROR = "SET_ERROR";

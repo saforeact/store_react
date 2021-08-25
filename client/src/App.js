@@ -1,32 +1,44 @@
 import { Box } from "@material-ui/core";
-import { Header, SideBar } from "./components";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect, Route, Switch } from "react-router-dom";
 import useStyles from "./AppStyles";
-import { useState } from "react";
+import { Header, SettingPage, SideBar } from "./components";
+import { getUserAction } from "./redux/actions/userActions";
+import { LOCAL_STORAGE_TOKEN, settingPage, shopPage } from "./utils/constants";
 const App = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
-  const setOpenHendler = (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setOpen(!open);
+  const dispatch = useDispatch();
+
+  const [openSideBar, setOpenSideBar] = useState(false);
+  const setOpenSideBarHendler = () => {
+    setOpenSideBar(!openSideBar);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem(LOCAL_STORAGE_TOKEN)) {
+      dispatch(getUserAction());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Box className={classes.app_wrapper}>
       <Box className={classes.app_header}>
-        <Header setOpenHendler={setOpenHendler} />
+        <Header setOpenHendler={setOpenSideBarHendler} />
       </Box>
       <Box className={classes.app_contentBox}>
         <SideBar
           className={classes.app_sideBar}
-          open={open}
-          setOpenHendler={setOpenHendler}
+          open={openSideBar}
+          setOpenHendler={setOpenSideBarHendler}
         />
-        <Box></Box>
+        <Box>
+          <Switch>
+            <Route path={settingPage} component={SettingPage} />
+            <Redirect to={shopPage} />
+          </Switch>
+        </Box>
       </Box>
     </Box>
   );

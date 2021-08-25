@@ -6,10 +6,13 @@ const authReduce = (state = initialStore, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {
+        ...state,
         ...action.payload,
       };
     case DATA_CLEAR:
-      return { isAuth: false };
+      return {
+        isAuth: false,
+      };
     default:
       return { ...state };
   }
