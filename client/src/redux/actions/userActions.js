@@ -1,6 +1,11 @@
 import { instance } from "../../api/axios";
-import defaultAvatar from "../../img/avatar.png";
-import { AUTH, EDIT, LOCAL_STORAGE_TOKEN, USER } from "../../utils/constants";
+import {
+  AUTH,
+  EDIT,
+  EDIT_PHOTO,
+  LOCAL_STORAGE_TOKEN,
+  USER,
+} from "../../utils/constants";
 import { SET_LOADING, SET_USER } from "../actionTypes";
 import { setAuthAction } from "./authActions";
 import { dataClearAction } from "./commonActions";
@@ -27,10 +32,12 @@ export const getUserAction = () => {
       }
       const { data } = await instance(token).get(USER + AUTH);
       dispatch(setAuthAction(true));
-      dispatch(setUserAction(data.user));
-      if (!data.user.photo) {
-        dispatch(setUserAction({ photo: defaultAvatar }));
-      }
+      dispatch(
+        setUserAction({
+          ...data.user,
+          photo: `${process.env.REACT_APP_URL_SERVER}/${data.user.photo}`,
+        })
+      );
     } catch (error) {
       dispatch(dataClearAction());
     } finally {
@@ -42,7 +49,21 @@ export const editUserAction = (form) => {
   return async (dispatch) => {
     try {
       const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-      const { data } = instance(token).post(USER + EDIT, form);
-    } catch (error) {}
+      await instance(token).post(USER + EDIT, form);
+      dispatch(getUserAction());
+    } catch (error) {
+      dispatch(dataClearAction());
+    }
+  };
+};
+export const editUserPhotoAction = (photo) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
+      await instance(token).post(USER + EDIT_PHOTO, photo);
+      dispatch(getUserAction());
+    } catch (error) {
+      // dispatch(dataClearAction());
+    }
   };
 };

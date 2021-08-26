@@ -8,6 +8,7 @@ module.exports = {
       name: { type: String, require: true },
       surname: { type: String, require: true },
       role: { type: String, require: true },
+      photo: { type: String },
     },
     {
       versionKey: false,

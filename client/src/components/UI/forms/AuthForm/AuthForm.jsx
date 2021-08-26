@@ -19,13 +19,10 @@ const SignIn = ({ selectForm, handleClose }) => {
     if (selectForm) {
       const form = { email: email.value, password: password.value };
       dispatch(signInAction(form));
-      handleClose();
-    }
-    if (!selectForm) {
+    } else {
       if (password.value !== confirmPassword.value) {
         return;
       }
-
       dispatch(
         signUpAction({
           email: email.value,
@@ -33,6 +30,7 @@ const SignIn = ({ selectForm, handleClose }) => {
         })
       );
     }
+    handleClose();
   };
 
   return (

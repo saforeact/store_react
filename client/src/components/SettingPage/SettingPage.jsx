@@ -1,9 +1,13 @@
 import { Avatar, Box, Button, TextField } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUserAction } from "../../redux/actions/userActions";
+import {
+  editUserAction,
+  editUserPhotoAction,
+} from "../../redux/actions/userActions";
 import { userSelector } from "../../redux/selectors";
 import useStyle from "./SettingPageStyle";
+import { isEmpty } from "lodash";
 const SettingPage = () => {
   const classes = useStyle();
   const dispatch = useDispatch();
@@ -28,14 +32,31 @@ const SettingPage = () => {
   });
 
   React.useEffect(
-    () => setForm({ ...form, ...inform }),
+    () => {
+      if (isEmpty(data)) {
+        const clearForm = {};
+        for (let key in form) {
+          Object.assign(clearForm, { [key]: "" });
+        }
+        return setForm(clearForm);
+      }
+      setForm({ ...form, ...inform });
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data]
   );
   const saveInfornHendler = () => {
     dispatch(editUserAction(form));
   };
-  const savePhotoHendler = () => {};
+
+  const savePhotoHendler = () => {
+    if (newPhoto.file) {
+      const photo = new FormData();
+      photo.append("photo", newPhoto.file);
+      dispatch(editUserPhotoAction(photo));
+    }
+  };
+
   const showForm = () => {
     const returnForm = [];
     for (let key in form) {

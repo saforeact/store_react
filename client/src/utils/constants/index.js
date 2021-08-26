@@ -11,7 +11,14 @@ export const settingPage = "/setting";
 
 export const API = "/api";
 export const USER = API + "/user";
+
 export const AUTH = "/auth";
 export const LOGIN = "/login";
 export const REGISTER = "/registration";
 export const EDIT = "/edit";
+export const EDIT_PHOTO = "/editPhoto";
+
+export const ADMIN = "/admin";
+export const GET_ALL_USERS = "/getUsers";
+export const SET_NEW_USERS = "/setNewUsers";
+export const DELETE_USERS = "/deleteUsers";

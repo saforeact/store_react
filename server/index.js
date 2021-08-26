@@ -17,6 +17,9 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
+
+app.use("/uploads", express.static("uploads"));
+app.use("/img", express.static("img"));
 app.use("/api", router);
 
 const start = () => {

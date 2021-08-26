@@ -3,9 +3,15 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import useStyles from "./AppStyles";
-import { Header, SettingPage, SideBar } from "./components";
+import { Header, SettingPage, SideBar, UsersRole } from "./components";
+import { checkToken } from "./hoc/checkToken";
 import { getUserAction } from "./redux/actions/userActions";
-import { LOCAL_STORAGE_TOKEN, settingPage, shopPage } from "./utils/constants";
+import {
+  LOCAL_STORAGE_TOKEN,
+  settingPage,
+  shopPage,
+  userRolesPage,
+} from "./utils/constants";
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -35,7 +41,8 @@ const App = () => {
         />
         <Box>
           <Switch>
-            <Route path={settingPage} component={SettingPage} />
+            <Route path={settingPage} component={checkToken(SettingPage)} />
+            <Route path={userRolesPage} component={checkToken(UsersRole)} />
             <Redirect to={shopPage} />
           </Switch>
         </Box>

@@ -5,8 +5,10 @@ const brandRouter = require("./brandRouter");
 const deviceRouter = require("./deviceRouter");
 const typeRouter = require("./typeRouter");
 const authRouter = require("./authRouter");
-const { checkToken } = require("../middlewares");
+const adminRouter = require("./adminRouter");
+const { checkToken, checkUserRole } = require("../middlewares");
 
+router.use("/admin", checkToken, checkUserRole, adminRouter);
 router.use("/user", checkToken, userRouter);
 router.use("/type", checkToken, typeRouter);
 router.use("/brand", checkToken, brandRouter);
