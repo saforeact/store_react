@@ -3,10 +3,17 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import useStyles from "./AppStyles";
-import { Header, SettingPage, SideBar, UsersRole } from "./components";
+import {
+  CreateProductPage,
+  Header,
+  SettingPage,
+  SideBar,
+  UsersRole,
+} from "./components";
 import { checkToken } from "./hoc/checkToken";
 import { getUserAction } from "./redux/actions/userActions";
 import {
+  createProduct,
   LOCAL_STORAGE_TOKEN,
   settingPage,
   shopPage,
@@ -43,6 +50,10 @@ const App = () => {
           <Switch>
             <Route path={settingPage} component={checkToken(SettingPage)} />
             <Route path={userRolesPage} component={checkToken(UsersRole)} />
+            <Route
+              path={createProduct}
+              component={checkToken(CreateProductPage)}
+            />
             <Redirect to={shopPage} />
           </Switch>
         </Box>

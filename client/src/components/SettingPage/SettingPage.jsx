@@ -8,6 +8,8 @@ import {
 import { userSelector } from "../../redux/selectors";
 import useStyle from "./SettingPageStyle";
 import { isEmpty } from "lodash";
+import { showForm } from "../../utils/function";
+import { EmptyForm } from "../UI/forms";
 const SettingPage = () => {
   const classes = useStyle();
   const dispatch = useDispatch();
@@ -57,24 +59,6 @@ const SettingPage = () => {
     }
   };
 
-  const showForm = () => {
-    const returnForm = [];
-    for (let key in form) {
-      returnForm.push(
-        <TextField
-          key={key}
-          value={form[key]}
-          onChange={(e) => {
-            setForm((p) => ({ ...p, [key]: e.target.value }));
-          }}
-          placeholder={key}
-        >
-          {key}
-        </TextField>
-      );
-    }
-    return returnForm;
-  };
   return (
     <Box className={classes.wrapper}>
       <Box className={classes.photo}>
@@ -88,9 +72,10 @@ const SettingPage = () => {
         <Button onClick={savePhotoHendler}>Save Photo</Button>
       </Box>
       <Box className={classes.inform}>
-        <h1>Information about you</h1>
-        {showForm()}
-        <Button onClick={saveInfornHendler}>Save Inform</Button>
+        <EmptyForm submitText="Save Inform" onSubmitHendler={saveInfornHendler}>
+          <h1>Information about you</h1>
+          {showForm(form, setForm)}
+        </EmptyForm>
       </Box>
     </Box>
   );

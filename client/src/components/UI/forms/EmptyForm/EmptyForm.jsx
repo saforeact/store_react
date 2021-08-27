@@ -10,7 +10,9 @@ const EmptyForm = ({ onSubmitHendler, children, submitText }) => {
   return (
     <form onSubmit={onSubmitForm} className={classes.form}>
       {children}
-      <Button type="submit">{submitText}</Button>
+      <Button type="submit" className={classes.btn}>
+        {submitText}
+      </Button>
     </form>
   );
 };

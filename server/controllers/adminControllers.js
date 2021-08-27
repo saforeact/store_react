@@ -26,6 +26,7 @@ class AdminController {
       return res.status(400).json({ message: error });
     }
   }
+
   async deleteUsers(req, res) {
     const { removeList, _id } = req.body;
     try {

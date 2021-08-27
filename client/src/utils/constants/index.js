@@ -8,6 +8,7 @@ export const userRolesPage = "/usersRole";
 export const personalAreaPage = "/personalArea";
 export const cartPage = "/cart";
 export const settingPage = "/setting";
+export const createProduct = "/createProduct";
 
 export const API = "/api";
 export const USER = API + "/user";

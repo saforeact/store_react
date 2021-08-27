@@ -19,7 +19,6 @@ export const getUsersAction = (payload) => {
 export const getAllUsersAction = () => {
   return async (dispatch) => {
     try {
-      console.log("syka");
       const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
       const { data } = await instance(token).get(API + ADMIN + GET_ALL_USERS);
       dispatch(getUsersAction(data));

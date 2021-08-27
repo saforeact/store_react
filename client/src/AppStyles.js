@@ -11,6 +11,7 @@ export default makeStyles({
     display: "flex",
     flexDirection: "row",
     gap: 25,
+    justifyContent: "center",
   },
   app_sideBar: {
     width: 200,

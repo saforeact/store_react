@@ -5,6 +5,7 @@ export default makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: 15,
+    width: "94vw",
   },
   user: {
     display: "flex",
@@ -13,7 +14,6 @@ export default makeStyles({
     alignItems: "center",
     padding: "10px 20px",
     border: "solid black 1px",
-    width: "94vw",
     boxShadow: "2px 2px 4px 0px",
   },
   control: {
@@ -25,5 +25,9 @@ export default makeStyles({
   },
   remove: {
     opacity: 0.5,
+  },
+  controleList: {
+    display: "flex",
+    justifyContent: "space-around",
   },
 });

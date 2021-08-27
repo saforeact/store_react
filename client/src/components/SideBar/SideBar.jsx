@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userSelector } from "../../redux/selectors";
 import {
+  createProduct,
   profilePage,
   settingPage,
   shopPage,
@@ -30,7 +31,11 @@ const userMenu = [
   { text: "Shop", href: shopPage },
   { text: "Setting", href: settingPage },
 ];
-const adminMenu = [...userMenu, { text: "Users Role", href: userRolesPage }];
+const adminMenu = [
+  ...userMenu,
+  { text: "Users Role", href: userRolesPage },
+  { text: "Create product", href: createProduct },
+];
 
 const SideBar = ({
   open,
