@@ -63,7 +63,7 @@ export const editUserPhotoAction = (photo) => {
       await instance(token).post(USER + EDIT_PHOTO, photo);
       dispatch(getUserAction());
     } catch (error) {
-      // dispatch(dataClearAction());
+      dispatch(dataClearAction());
     }
   };
 };

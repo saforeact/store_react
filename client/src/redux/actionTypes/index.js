@@ -10,7 +10,7 @@ export const SET_ERROR = "SET_ERROR";
 export const ERROR_CLEAR = "ERROR_CLEAR";
 
 //admin
-export const SET_USERS = "SET_USERS";
+export const SET_DATA = "SET_DATA";
 
 //common
 export const DATA_CLEAR = "DATA_CLEAR";

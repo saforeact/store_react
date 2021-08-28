@@ -34,7 +34,7 @@ module.exports = {
 
   typeSchema: new mongoose.Schema(
     {
-      name: { type: mongoose.Types.ObjectId, require: true },
+      name: { type: String, require: true },
     },
     {
       versionKey: false,
@@ -43,7 +43,7 @@ module.exports = {
 
   brandSchema: new mongoose.Schema(
     {
-      name: { type: mongoose.Types.ObjectId, require: true },
+      name: { type: String, require: true },
     },
     {
       versionKey: false,

@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Brand, Type, Device } = require("../models");
 
 class AdminController {
   async getAllUsers(req, res) {
@@ -34,6 +34,39 @@ class AdminController {
         await User.findOneAndDelete({ _id: itemID });
       }
 
+      return res.status(200).json({ message: "Success" });
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  }
+
+  async createProduct(req, res) {
+    const { _id, product } = req.body;
+
+    try {
+      let brand = await Brand.findOne({
+        name: String(product.brand).toLowerCase(),
+      });
+      let categiry = await Type.findOne({
+        name: String(product.categiry).toLowerCase(),
+      });
+
+      if (!brand) {
+        const newBrand = new Brand({ name: product.brand.toLowerCase() });
+        brand = await newBrand.save();
+      }
+      if (!categiry) {
+        const newCategiry = new Type({ name: product.categiry.toLowerCase() });
+        categiry = await newCategiry.save();
+      }
+
+      const newProduct = new Device({
+        name: product.name,
+        brandId: brand._id,
+        typeId: categiry._id,
+        price: product.price,
+      });
+      await newProduct.save();
       return res.status(200).json({ message: "Success" });
     } catch (error) {
       return res.status(400).json({ message: error });

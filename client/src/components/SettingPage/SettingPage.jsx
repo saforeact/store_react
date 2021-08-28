@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editUserAction,
@@ -15,7 +15,8 @@ const SettingPage = () => {
   const dispatch = useDispatch();
   const { data } = useSelector(userSelector);
   const { photo, role, ...inform } = data;
-  const [newPhoto, setNewPhoto] = React.useState({
+
+  const [newPhoto, setNewPhoto] = useState({
     file: null,
     url: null,
   });
@@ -26,14 +27,16 @@ const SettingPage = () => {
     });
   };
 
-  const [form, setForm] = React.useState({
+  const [form, setForm] = useState({
     name: "",
     surname: "",
     email: "",
     ...inform,
   });
-
-  React.useEffect(
+  const setFormHendler = (form, e) => {
+    setForm(form);
+  };
+  useEffect(
     () => {
       if (isEmpty(data)) {
         const clearForm = {};
@@ -74,7 +77,7 @@ const SettingPage = () => {
       <Box className={classes.inform}>
         <EmptyForm submitText="Save Inform" onSubmitHendler={saveInfornHendler}>
           <h1>Information about you</h1>
-          {showForm(form, setForm)}
+          {showForm(form, setFormHendler)}
         </EmptyForm>
       </Box>
     </Box>

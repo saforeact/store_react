@@ -23,3 +23,6 @@ export const ADMIN = "/admin";
 export const GET_ALL_USERS = "/getUsers";
 export const SET_NEW_USERS = "/setNewUsers";
 export const DELETE_USERS = "/deleteUsers";
+export const CREATE_PRODUCT = "/createProduct";
+export const BRAND = "/brand";
+export const TYPE = "/type";

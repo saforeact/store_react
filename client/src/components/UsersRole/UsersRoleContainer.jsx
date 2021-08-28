@@ -8,7 +8,7 @@ import { adminka } from "../../redux/selectors";
 import UsersRole from "./UsersRole";
 const UsersRoleContainer = () => {
   const dispatch = useDispatch();
-  const { users = [], roles = [] } = useSelector(adminka);
+  const { users, roles } = useSelector(adminka);
   const [userList, setUserList] = useState([]);
   const [userListСhange, setUserListСhange] = useState([]);
   const [userListDelete, setUserListDelete] = useState([]);
@@ -21,9 +21,11 @@ const UsersRoleContainer = () => {
 
   useEffect(() => {
     dispatch(getAllUsersAction());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
+    console.log(users);
     setUserList(users);
   }, [users]);
 

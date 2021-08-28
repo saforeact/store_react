@@ -2,10 +2,12 @@ const { User } = require("../models");
 const Token = require("../utils/Token");
 const checkToken = (res, req, next) => {
   const token = res.headers.authorization;
+
   if (!token || token == null) {
     return req.status(412).json({ message: "No token" });
   }
   const decoded = new Token({ token }).decoded();
+
   if (decoded) {
     res.body._id = decoded._id;
     next();

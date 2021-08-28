@@ -7,7 +7,9 @@ class Token {
   }
 
   create() {
-    return jwt.sign({ _id: this._id }, this.secretCode);
+    return jwt.sign({ _id: this._id }, this.secretCode, {
+      expiresIn: "1h",
+    });
   }
 
   decoded() {
