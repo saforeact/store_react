@@ -6,7 +6,6 @@ export const checkToken =
   (Component) =>
   ({ ...props }) => {
     const history = useHistory();
-    console.log(`hoc`);
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     if (token) {
       return <Component {...props} />;

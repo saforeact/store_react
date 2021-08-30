@@ -5,7 +5,7 @@ export default makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: 15,
-    width: "94vw",
+    padding: "0 20px",
   },
   user: {
     display: "flex",

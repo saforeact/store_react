@@ -9,6 +9,8 @@ export const personalAreaPage = "/personalArea";
 export const cartPage = "/cart";
 export const settingPage = "/setting";
 export const createProduct = "/createProduct";
+export const deviceLink = "/device/";
+export const devicePage = "/device/:idProduct";
 
 export const API = "/api";
 export const USER = API + "/user";
@@ -24,5 +26,7 @@ export const GET_ALL_USERS = "/getUsers";
 export const SET_NEW_USERS = "/setNewUsers";
 export const DELETE_USERS = "/deleteUsers";
 export const CREATE_PRODUCT = "/createProduct";
+export const ADD_PHOTO_TO_PROD = "/addPhotoToProd";
 export const BRAND = "/brand";
 export const TYPE = "/type";
+export const DEVICES = "/device";

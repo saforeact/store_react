@@ -28,7 +28,6 @@ const CreateProductPage = () => {
     { name: "price", value: "", type: "number" },
   ]);
   const [photos, setPhotos] = useState([]);
-
   const setPhotosHendler = (e) => {
     setPhotos(e.target.files);
   };

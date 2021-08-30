@@ -4,6 +4,8 @@ export default makeStyles({
   wrapper: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
+    padding: "10px 20px",
     gap: 15,
   },
   help: {

@@ -12,5 +12,8 @@ export const ERROR_CLEAR = "ERROR_CLEAR";
 //admin
 export const SET_DATA = "SET_DATA";
 
+//devices
+export const SET_DEVICES = "SET_DEVICES";
+
 //common
 export const DATA_CLEAR = "DATA_CLEAR";

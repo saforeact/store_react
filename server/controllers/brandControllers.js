@@ -1,23 +1,22 @@
 const { Brand } = require("../models");
 
 class BrandController {
-  async getAllBrand(req, res) {
+  async getBrand(req, res) {
     try {
-      // const { search } = req.;
-      const query = req.query;
-      console.log(`query`, query);
+      const { search } = req.query;
       let brands = await Brand.find({});
       if (brands.length) {
+        if (search) {
+          brands = brands.filter(
+            (item) => item.name.indexOf(search.toLowerCase()) !== -1 && item
+          );
+        }
         brands = brands.map(
           (item) => item.name[0].toUpperCase() + item.name.slice(1)
         );
+      } else {
+        brands = [];
       }
-      // if (search) {
-      //   const test = brands.filter((item) =>
-      //     item.name.indexOf(search.toLowerCase())
-      //   );
-      //   console.log(`test`, test);
-      // }
       res.status(200).json({ brands });
     } catch (error) {
       res.status(400).json({ message: error });

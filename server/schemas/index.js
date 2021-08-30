@@ -64,7 +64,7 @@ module.exports = {
       name: { type: String, require: true },
       price: { type: Number, require: true },
       rating: { type: Number, require: true },
-      img: { type: String, require: true },
+      img: [{ type: String, require: true }],
       typeId: { type: mongoose.Types.ObjectId, require: true },
       brandId: { type: mongoose.Types.ObjectId, require: true },
     },

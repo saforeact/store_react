@@ -12,7 +12,7 @@ router.use("/admin", checkToken, checkUserRole, adminRouter);
 router.use("/user", checkToken, userRouter);
 router.use("/type", checkToken, typeRouter);
 router.use("/brand", checkToken, brandRouter);
-router.use("/device", checkToken, deviceRouter);
+router.use("/device", deviceRouter);
 router.use("/auth", authRouter);
 
 module.exports = router;

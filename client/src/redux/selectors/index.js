@@ -4,3 +4,4 @@ export const isAuthSelector = (state) => state.auth.isAuth;
 export const adminka = (state) => state.admin;
 export const brandsSelector = (state) => state.admin.brands;
 export const categorysSelector = (state) => state.admin.category;
+export const devicesSelector = (state) => state.device.devices;

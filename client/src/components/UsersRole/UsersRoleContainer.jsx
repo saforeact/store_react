@@ -25,7 +25,6 @@ const UsersRoleContainer = () => {
   }, []);
 
   useEffect(() => {
-    console.log(users);
     setUserList(users);
   }, [users]);
 

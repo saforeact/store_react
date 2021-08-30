@@ -1,6 +1,6 @@
-import axios from "axios";
 import { instance } from "../../api/axios";
 import {
+  ADD_PHOTO_TO_PROD,
   ADMIN,
   API,
   BRAND,
@@ -12,6 +12,7 @@ import {
   TYPE,
 } from "../../utils/constants";
 import { SET_DATA } from "../actionTypes";
+import { checkErrors } from "./commonActions";
 
 export const setDataAction = (payload) => {
   return {
@@ -27,7 +28,7 @@ export const getAllUsersAction = () => {
       const { data } = await instance(token).get(API + ADMIN + GET_ALL_USERS);
       dispatch(setDataAction(data));
     } catch (error) {
-      console.log(`error`, error);
+      dispatch(checkErrors(error));
     }
   };
 };
@@ -47,7 +48,7 @@ export const setNewUsersAction = (userList, removeList) => {
 
       dispatch(getAllUsersAction());
     } catch (error) {
-      console.log(`error`, error);
+      dispatch(checkErrors(error));
     }
   };
 };
@@ -56,35 +57,33 @@ export const getAllBrands = (search = "", cancelToken = "") => {
   return async (dispatch) => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     try {
-      console.log(`cancelToken`, cancelToken);
-
       const { data } = await instance(token).get(
-        API + BRAND + `?search=${search}`,
+        search.length ? API + BRAND + `?search=${search}` : API + BRAND,
         {
-          cancelToken: cancelToken.token,
+          cancelToken: cancelToken ? cancelToken.token : "",
         }
       );
-      console.log(`data`, data);
       dispatch(setDataAction(data));
     } catch (error) {
-      console.log(`error`, error);
+      dispatch(checkErrors(error));
     }
   };
 };
 
-export const getAllCategory = (search, cancelToken) => {
+export const getAllCategory = (search = "", cancelToken) => {
   return async (dispatch) => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     try {
       const { data } = await instance(token).get(
-        API + TYPE + `?search=${search}`,
+        search.length ? API + TYPE + `?search=${search}` : API + TYPE,
+
         {
-          cancelToken: cancelToken.token,
+          cancelToken: cancelToken ? cancelToken.token : "",
         }
       );
       dispatch(setDataAction(data));
     } catch (error) {
-      console.log(`error`, error);
+      dispatch(checkErrors(error));
     }
   };
 };
@@ -92,14 +91,25 @@ export const createProductAction = (product, photos) => {
   return async (dispatch) => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     try {
-      await instance(token).post(API + ADMIN + CREATE_PRODUCT, {
-        product,
-      });
+      const { data } = await instance(token).post(
+        API + ADMIN + CREATE_PRODUCT,
+        {
+          product,
+        }
+      );
+      const { _idProd } = data;
 
+      const resPhoto = new FormData();
+      [...photos].map((item, idx) => resPhoto.append(`photo ${idx}`, item));
+
+      await instance(token).post(
+        API + ADMIN + ADD_PHOTO_TO_PROD + `?_idProd=${_idProd}`,
+        resPhoto
+      );
       dispatch(getAllBrands());
       dispatch(getAllCategory());
     } catch (error) {
-      console.log(`error`, error);
+      dispatch(checkErrors(error));
     }
   };
 };

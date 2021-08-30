@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Device, Type, Brand } = require("../models");
 const Bcrypt = require("../utils/Bcrypt");
 
 const Token = require("../utils/Token");

@@ -6,7 +6,9 @@ import useStyles from "./AppStyles";
 import {
   CreateProductPage,
   Header,
+  OneProductPage,
   SettingPage,
+  Shop,
   SideBar,
   UsersRole,
 } from "./components";
@@ -14,6 +16,7 @@ import { checkToken } from "./hoc/checkToken";
 import { getUserAction } from "./redux/actions/userActions";
 import {
   createProduct,
+  devicePage,
   LOCAL_STORAGE_TOKEN,
   settingPage,
   shopPage,
@@ -50,6 +53,8 @@ const App = () => {
           <Switch>
             <Route path={settingPage} component={checkToken(SettingPage)} />
             <Route path={userRolesPage} component={checkToken(UsersRole)} />
+            <Route path={shopPage} component={Shop} />
+            <Route path={devicePage} component={OneProductPage} />
             <Route
               path={createProduct}
               component={checkToken(CreateProductPage)}

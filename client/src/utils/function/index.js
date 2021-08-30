@@ -33,7 +33,7 @@ export const showForm = (list = {} || [], onChange) => {
           onChange={(e) => {
             onChange((p) => ({ ...p, [key]: e.target.value }));
           }}
-          placeholder={key[0].ToUpperCase() + key.slice(1)}
+          placeholder={key[0].toUpperCase() + key.slice(1)}
         >
           {key}
         </TextField>

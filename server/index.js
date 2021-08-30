@@ -20,6 +20,7 @@ app.use(
 
 app.use("/uploads", express.static("uploads"));
 app.use("/img", express.static("img"));
+app.use("/photosProduct", express.static("photosProduct"));
 app.use("/api", router);
 
 const start = () => {

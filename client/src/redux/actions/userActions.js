@@ -8,7 +8,7 @@ import {
 } from "../../utils/constants";
 import { SET_LOADING, SET_USER } from "../actionTypes";
 import { setAuthAction } from "./authActions";
-import { dataClearAction } from "./commonActions";
+import { checkErrors } from "./commonActions";
 export const setUserAction = (payload) => {
   return {
     type: SET_USER,
@@ -39,7 +39,7 @@ export const getUserAction = () => {
         })
       );
     } catch (error) {
-      dispatch(dataClearAction());
+      dispatch(checkErrors(error));
     } finally {
       dispatch(setLoadingAction(false));
     }
@@ -52,7 +52,7 @@ export const editUserAction = (form) => {
       await instance(token).post(USER + EDIT, form);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(dataClearAction());
+      dispatch(checkErrors(error));
     }
   };
 };
@@ -63,7 +63,7 @@ export const editUserPhotoAction = (photo) => {
       await instance(token).post(USER + EDIT_PHOTO, photo);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(dataClearAction());
+      dispatch(checkErrors(error));
     }
   };
 };

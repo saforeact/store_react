@@ -7,12 +7,7 @@ export default makeStyles({
     gap: 10,
   },
   app_header: {},
-  app_contentBox: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 25,
-    justifyContent: "center",
-  },
+  app_contentBox: {},
   app_sideBar: {
     width: 200,
   },
