@@ -4,7 +4,7 @@ export default makeStyles({
   form: {
     display: "flex",
     flexDirection: "column",
-    padding: "50px 0",
+    paddingTop: 50,
   },
   btn: {
     borderRadius: 4,

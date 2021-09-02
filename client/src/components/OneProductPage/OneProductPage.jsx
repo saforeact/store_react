@@ -1,17 +1,96 @@
-import { Box } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getOneDevicesAction } from "../../redux/actions/devicesActions";
-
+import { Box, Button, Container } from "@material-ui/core";
+import { Edit } from "@material-ui/icons";
+import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
+import ImageGallery from "react-image-gallery";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  getOneDevicesAction,
+  setDevicesAction,
+} from "../../redux/actions/devicesActions";
+import { activeDeviceSelector, isAdminSelector } from "../../redux/selectors";
+import { editProductLink } from "../../utils/constants";
+import { Counter } from "../UI";
+import useStyles from "./OneProductPageStyle";
 const OneProductPage = () => {
+  const classes = useStyles();
   const { idProduct } = useParams();
   const dispatch = useDispatch();
+  const device = useSelector(activeDeviceSelector);
+  const isAdmin = useSelector(isAdminSelector);
+  const [images, setImages] = useState([]);
+  const history = useHistory();
+  const showDescriptio = () => {
+    if (device && device.description) {
+      const descriptionJSX = [];
+      const { description } = device;
+      description.forEach((item) => {
+        descriptionJSX.push(<h2 key={item.name}>{item.name}</h2>);
+        const { specifications } = item;
+        for (let key in specifications) {
+          descriptionJSX.push(
+            <Box className={classes.specifications} key={key}>
+              <h4>{key}:</h4>
+              <h4>{specifications[key]}</h4>
+            </Box>
+          );
+        }
+      });
+
+      return descriptionJSX;
+    }
+  };
+  useEffect(() => {
+    if (!isEmpty(device) && device.img.length) {
+      setImages(
+        device.img.map((image) => ({
+          original: process.env.REACT_APP_URL_SERVER + "/" + image,
+          thumbnail: process.env.REACT_APP_URL_SERVER + "/" + image,
+          originalHeight: 500,
+        }))
+      );
+    }
+  }, [device]);
   useEffect(() => {
     dispatch(getOneDevicesAction(idProduct));
+    return () => {
+      dispatch(setDevicesAction({ activeDevice: {} }));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <Box></Box>;
+  return !isEmpty(device) ? (
+    <Container className={classes.wrapper}>
+      <Box>
+        <ImageGallery
+          items={images}
+          thumbnailPosition="left"
+          additionalClass={classes.gallery}
+          showFullscreenButton={false}
+          showPlayButton={false}
+        />
+      </Box>
+      <Box className={classes.content}>
+        <Box className={classes.title}>
+          <h1>{`${device.brand} ${device.name}`}</h1>
+          {isAdmin && (
+            <Button
+              onClick={() => {
+                history.push(`${editProductLink}/${idProduct}`);
+              }}
+            >
+              <Edit />
+            </Button>
+          )}
+        </Box>
+        <Box className={classes.descriptioList}>{showDescriptio()}</Box>
+        <Box className={classes.buy}>
+          <Counter />
+          <Button>Add to Card</Button>
+        </Box>
+      </Box>
+    </Container>
+  ) : null;
 };
 
 export default OneProductPage;

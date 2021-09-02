@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -83,7 +84,7 @@ const UsersRoleContainer = () => {
       ? searchList(userList)
       : searchList(userList.filter((u) => u.role === sortRole));
 
-  return (
+  return !isEmpty(users) ? (
     <UsersRole
       search={search}
       searchHendler={searchHendler}
@@ -97,7 +98,7 @@ const UsersRoleContainer = () => {
       roles={roles}
       saveUsers={saveUsers}
     />
-  );
+  ) : null;
 };
 
 export default UsersRoleContainer;

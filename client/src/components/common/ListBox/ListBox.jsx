@@ -1,7 +1,7 @@
 import { Box, Select } from "@material-ui/core";
 import React, { useState } from "react";
 import userStyles from "./ListBoxStyle";
-const ListBox = ({ title = "", list = [], onChange }) => {
+const ListBox = ({ title, list = [], onChange }) => {
   const classes = userStyles();
   const [value, setValue] = useState();
   const setValueHendler = (e) => {
@@ -10,7 +10,7 @@ const ListBox = ({ title = "", list = [], onChange }) => {
   };
   return (
     <Box className={classes.wrapper}>
-      <h2>{title}</h2>
+      {title && <h2>{title}</h2>}
       <Select
         multiple
         native

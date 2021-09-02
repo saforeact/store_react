@@ -3,8 +3,6 @@ import { DATA_CLEAR, SET_DATA } from "../actionTypes";
 const initialStore = {
   users: [],
   roles: [],
-  brands: [],
-  category: [],
 };
 
 const adminReduce = (state = initialStore, action) => {

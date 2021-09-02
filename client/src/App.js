@@ -17,6 +17,7 @@ import { getUserAction } from "./redux/actions/userActions";
 import {
   createProduct,
   devicePage,
+  editProductPage,
   LOCAL_STORAGE_TOKEN,
   settingPage,
   shopPage,
@@ -57,6 +58,10 @@ const App = () => {
             <Route path={devicePage} component={OneProductPage} />
             <Route
               path={createProduct}
+              component={checkToken(CreateProductPage)}
+            />
+            <Route
+              path={editProductPage}
               component={checkToken(CreateProductPage)}
             />
             <Redirect to={shopPage} />

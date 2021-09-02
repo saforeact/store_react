@@ -1,25 +1,36 @@
 import { Box, TextField } from "@material-ui/core";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   createProductAction,
+  editProductAction,
+} from "../../redux/actions/adminActions";
+import {
   getAllBrands,
   getAllCategory,
-} from "../../redux/actions/adminActions";
-import { brandsSelector, categorysSelector } from "../../redux/selectors";
+  getOneDevicesAction,
+} from "../../redux/actions/devicesActions";
+import {
+  activeDeviceSelector,
+  brandsSelector,
+  categorysSelector,
+} from "../../redux/selectors";
 import { showForm } from "../../utils/function";
 import { ListBox } from "../common";
 import { EmptyForm } from "../UI/forms";
 import useStyles from "./CreateProductPageStyle";
-let cancelTokenBrand;
-let cancelTokenType;
+import ShowNewFields from "./ShowNewFields/ShowNewFields";
+
 const CreateProductPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const brands = useSelector(brandsSelector);
   const categiry = useSelector(categorysSelector);
+  const device = useSelector(activeDeviceSelector);
+
+  const { idProduct } = useParams();
 
   const [product, setProduct] = useState([
     { name: "name", value: "" },
@@ -27,38 +38,64 @@ const CreateProductPage = () => {
     { name: "category", value: "" },
     { name: "price", value: "", type: "number" },
   ]);
+  const [description, setDescription] = useState([]);
   const [photos, setPhotos] = useState([]);
   const setPhotosHendler = (e) => {
     setPhotos(e.target.files);
   };
 
   useEffect(() => {
+    if (device._id && device._id.length) {
+      setProduct(product.map((p) => ({ ...p, value: device[p.name] })));
+      setDescription(device.description);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [device]);
+
+  useEffect(() => {
     dispatch(getAllBrands());
     dispatch(getAllCategory());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (idProduct) {
+      dispatch(getOneDevicesAction(idProduct));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idProduct]);
+
   const setProductHendler = async (form, e) => {
     if (e.target.name === "category") {
-      cancelTokenType = cancelTokenType
-        ? cancelTokenType.cancel("")
-        : new axios.CancelToken.source();
-      dispatch(getAllCategory(e.target.value, cancelTokenType));
+      dispatch(getAllCategory(e.target.value));
     }
-
     if (e.target.name === "brand") {
-      cancelTokenBrand = cancelTokenBrand
-        ? cancelTokenBrand.cancel("")
-        : new axios.CancelToken.source();
-      dispatch(getAllBrands(e.target.value, cancelTokenBrand));
+      dispatch(getAllBrands(e.target.value));
     }
     setProduct(form);
   };
-  const createProduct = () => {
+
+  const convertForShipment = () => {
     const changeProduct = {};
     product.forEach((item) => {
       Object.assign(changeProduct, { [item.name]: item.value });
     });
-    dispatch(createProductAction(changeProduct, photos));
+    return changeProduct;
+  };
+
+  const createProduct = () => {
+    dispatch(
+      createProductAction({ ...convertForShipment(), description }, photos)
+    );
+  };
+  const editProduct = () => {
+    dispatch(
+      editProductAction(
+        { ...convertForShipment(), description },
+        photos,
+        idProduct
+      )
+    );
   };
 
   const selectBrand = (brand) => {
@@ -73,7 +110,13 @@ const CreateProductPage = () => {
       )
     );
   };
-
+  const addNewField = (e) => {
+    if (e.keyCode === 13) {
+      if (!description.find((item) => item.name === e.target.value)) {
+        setDescription([...description, { name: e.target.value }]);
+      }
+    }
+  };
   return (
     <Box className={classes.wrapper}>
       <Box className={classes.help}>
@@ -81,14 +124,22 @@ const CreateProductPage = () => {
         <ListBox title="Cateries" list={categiry} onChange={selectCategory} />
       </Box>
       <Box className={classes.form}>
-        <EmptyForm submitText="Create Product" onSubmitHendler={createProduct}>
+        <EmptyForm
+          submitText={idProduct ? "Edit Product" : "Create Product"}
+          onSubmitHendler={idProduct ? editProduct : createProduct}
+        >
           {showForm(product, setProductHendler)}
           <TextField
             type="file"
             inputProps={{ multiple: true }}
             onChange={setPhotosHendler}
-          ></TextField>
+          />
         </EmptyForm>
+        <ShowNewFields
+          list={description}
+          onChange={setDescription}
+        ></ShowNewFields>
+        <TextField placeholder="Create new property" onKeyDown={addNewField} />
       </Box>
     </Box>
   );

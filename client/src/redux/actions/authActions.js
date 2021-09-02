@@ -1,11 +1,5 @@
-import { instance } from "../../api/axios";
-import {
-  API,
-  AUTH,
-  LOCAL_STORAGE_TOKEN,
-  LOGIN,
-  REGISTER,
-} from "../../utils/constants";
+import { authAPI } from "../../api/httpService";
+import { LOCAL_STORAGE_TOKEN } from "../../utils/constants";
 import { SET_AUTH } from "../actionTypes";
 import { dataClearAction } from "./commonActions";
 import { getUserAction } from "./userActions";
@@ -19,7 +13,7 @@ export const setAuthAction = (flag) => {
 export const signInAction = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await instance().post(API + AUTH + LOGIN, form);
+      const { data } = await authAPI.signIn(form);
       const { token } = data;
       localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
       dispatch(getUserAction());
@@ -32,7 +26,7 @@ export const signInAction = (form) => {
 export const signUpAction = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await instance().post(API + AUTH + REGISTER, form);
+      const { data } = await authAPI.signUp(form);
       const { token } = data;
       localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
       dispatch(getUserAction());

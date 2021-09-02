@@ -11,12 +11,14 @@ export const dataClearAction = () => {
 
 export const checkErrors = (error) => {
   return async (dispatch) => {
-    const { response } = error;
-    const { status } = response;
-    console.log(`status`, status);
-    if (status === 412 || 401) {
-      dispatch(setAuthAction(false));
-      dispatch(dataClearAction());
+    if (error && error.response) {
+      const { response } = error;
+      const { status } = response;
+      console.log(`status`, status);
+      if (status === 412 || 401) {
+        dispatch(setAuthAction(false));
+        dispatch(dataClearAction());
+      }
     }
   };
 };

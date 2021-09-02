@@ -2,6 +2,9 @@ import { DATA_CLEAR, SET_DEVICES } from "../actionTypes";
 
 const initialStore = {
   devices: [],
+  category: [],
+  brands: [],
+  // activeDevice: {},
 };
 
 const devicesReduce = (state = initialStore, action) => {
@@ -9,7 +12,7 @@ const devicesReduce = (state = initialStore, action) => {
     case SET_DEVICES:
       return { ...state, ...action.payload };
     case DATA_CLEAR:
-      return initialStore;
+      return { ...initialStore, ...state, devices: state.devices };
     default:
       return { ...state };
   }

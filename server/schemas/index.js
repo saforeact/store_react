@@ -67,6 +67,7 @@ module.exports = {
       img: [{ type: String, require: true }],
       typeId: { type: mongoose.Types.ObjectId, require: true },
       brandId: { type: mongoose.Types.ObjectId, require: true },
+      description: [{ type: Object }],
     },
     {
       versionKey: false,

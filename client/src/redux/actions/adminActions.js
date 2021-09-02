@@ -1,18 +1,7 @@
-import { instance } from "../../api/axios";
-import {
-  ADD_PHOTO_TO_PROD,
-  ADMIN,
-  API,
-  BRAND,
-  CREATE_PRODUCT,
-  DELETE_USERS,
-  GET_ALL_USERS,
-  LOCAL_STORAGE_TOKEN,
-  SET_NEW_USERS,
-  TYPE,
-} from "../../utils/constants";
+import { adminAPI } from "../../api/httpService";
 import { SET_DATA } from "../actionTypes";
 import { checkErrors } from "./commonActions";
+import { getAllBrands, getAllCategory } from "./devicesActions";
 
 export const setDataAction = (payload) => {
   return {
@@ -24,8 +13,7 @@ export const setDataAction = (payload) => {
 export const getAllUsersAction = () => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-      const { data } = await instance(token).get(API + ADMIN + GET_ALL_USERS);
+      const { data } = await adminAPI.getAllUsers();
       dispatch(setDataAction(data));
     } catch (error) {
       dispatch(checkErrors(error));
@@ -36,16 +24,10 @@ export const getAllUsersAction = () => {
 export const setNewUsersAction = (userList, removeList) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-
-      await instance(token).post(API + ADMIN + DELETE_USERS, {
+      await adminAPI.deleteUsers({
         removeList,
       });
-
-      await instance(token).post(API + ADMIN + SET_NEW_USERS, {
-        userList,
-      });
-
+      await adminAPI.editUsersProfile({ userList });
       dispatch(getAllUsersAction());
     } catch (error) {
       dispatch(checkErrors(error));
@@ -53,59 +35,31 @@ export const setNewUsersAction = (userList, removeList) => {
   };
 };
 
-export const getAllBrands = (search = "", cancelToken = "") => {
-  return async (dispatch) => {
-    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-    try {
-      const { data } = await instance(token).get(
-        search.length ? API + BRAND + `?search=${search}` : API + BRAND,
-        {
-          cancelToken: cancelToken ? cancelToken.token : "",
-        }
-      );
-      dispatch(setDataAction(data));
-    } catch (error) {
-      dispatch(checkErrors(error));
-    }
-  };
-};
-
-export const getAllCategory = (search = "", cancelToken) => {
-  return async (dispatch) => {
-    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-    try {
-      const { data } = await instance(token).get(
-        search.length ? API + TYPE + `?search=${search}` : API + TYPE,
-
-        {
-          cancelToken: cancelToken ? cancelToken.token : "",
-        }
-      );
-      dispatch(setDataAction(data));
-    } catch (error) {
-      dispatch(checkErrors(error));
-    }
-  };
-};
 export const createProductAction = (product, photos) => {
   return async (dispatch) => {
-    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     try {
-      const { data } = await instance(token).post(
-        API + ADMIN + CREATE_PRODUCT,
-        {
-          product,
-        }
-      );
-      const { _idProd } = data;
-
-      const resPhoto = new FormData();
-      [...photos].map((item, idx) => resPhoto.append(`photo ${idx}`, item));
-
-      await instance(token).post(
-        API + ADMIN + ADD_PHOTO_TO_PROD + `?_idProd=${_idProd}`,
-        resPhoto
-      );
+      const { data } = await adminAPI.createProduct({ product });
+      if ([...photos].length) {
+        const { _idProd } = data;
+        await adminAPI.addPhotoToProduct(photos, _idProd);
+      }
+      dispatch(getAllBrands());
+      dispatch(getAllCategory());
+    } catch (error) {
+      dispatch(checkErrors(error));
+    }
+  };
+};
+export const editProductAction = (product, photos, idProduct) => {
+  return async (dispatch) => {
+    try {
+      await adminAPI.editProduct({
+        product,
+        idProduct,
+      });
+      if ([...photos].length) {
+        await adminAPI.editPhotoProduct(photos, idProduct);
+      }
       dispatch(getAllBrands());
       dispatch(getAllCategory());
     } catch (error) {

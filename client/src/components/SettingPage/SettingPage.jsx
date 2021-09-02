@@ -56,9 +56,7 @@ const SettingPage = () => {
 
   const savePhotoHendler = () => {
     if (newPhoto.file) {
-      const photo = new FormData();
-      photo.append("photo", newPhoto.file);
-      dispatch(editUserPhotoAction(photo));
+      dispatch(editUserPhotoAction(newPhoto.file));
     }
   };
 

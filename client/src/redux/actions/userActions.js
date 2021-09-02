@@ -1,11 +1,4 @@
-import { instance } from "../../api/axios";
-import {
-  AUTH,
-  EDIT,
-  EDIT_PHOTO,
-  LOCAL_STORAGE_TOKEN,
-  USER,
-} from "../../utils/constants";
+import { userAPI } from "../../api/httpService";
 import { SET_LOADING, SET_USER } from "../actionTypes";
 import { setAuthAction } from "./authActions";
 import { checkErrors } from "./commonActions";
@@ -26,11 +19,8 @@ export const getUserAction = () => {
   return async (dispatch) => {
     dispatch(setLoadingAction(true));
     try {
-      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-      if (!token) {
-        return;
-      }
-      const { data } = await instance(token).get(USER + AUTH);
+      const { data } = await userAPI.getUser();
+
       dispatch(setAuthAction(true));
       dispatch(
         setUserAction({
@@ -48,19 +38,18 @@ export const getUserAction = () => {
 export const editUserAction = (form) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-      await instance(token).post(USER + EDIT, form);
+      await userAPI.editUser(form);
       dispatch(getUserAction());
     } catch (error) {
       dispatch(checkErrors(error));
     }
   };
 };
+
 export const editUserPhotoAction = (photo) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-      await instance(token).post(USER + EDIT_PHOTO, photo);
+      await userAPI.editPhotoUser(photo);
       dispatch(getUserAction());
     } catch (error) {
       dispatch(checkErrors(error));

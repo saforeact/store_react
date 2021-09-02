@@ -1,6 +1,6 @@
 const { User, Brand, Type, Device } = require("../models");
 const fs = require("fs");
-
+const rimraf = require("rimraf");
 class AdminController {
   async getAllUsers(req, res) {
     const roles = ["Admin", "User"];
@@ -64,6 +64,7 @@ class AdminController {
         brandId: brand._id,
         typeId: category._id,
         price: product.price,
+        description: product.description,
       });
       await newProduct.save();
       return res
@@ -73,6 +74,16 @@ class AdminController {
       return res.status(400).json({ message: error });
     }
   }
+  async editProduct(req, res) {
+    try {
+      const { _id, product, idProduct } = req.body;
+      await Device.findOneAndUpdate({ _id: idProduct }, product);
+      return res.status(200).json({ message: "Success" });
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  }
+
   async addPhotoToProduct(req, res) {
     const { _idProd } = req.query;
     const files = req.files;
@@ -101,6 +112,49 @@ class AdminController {
         }
         await Device.findOneAndUpdate({ _id: _idProd }, { img: urlList });
       });
+      return res.status(200).json({ message: "Success" });
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  }
+  async changeProtosFromProduct(req, res) {
+    const { _idProd } = req.query;
+    const files = req.files;
+
+    try {
+      const UPLOAD_DIR = "photosProduct";
+      const pathToDirPhotos = "./" + UPLOAD_DIR;
+      fs.stat(pathToDirPhotos, function (err) {
+        if (err) {
+          fs.mkdirSync("./" + UPLOAD_DIR);
+        }
+      });
+      const pathToDirPhotosProduct = "./" + UPLOAD_DIR + "/" + _idProd;
+      fs.stat(pathToDirPhotosProduct, async function (err) {
+        if (err) {
+          fs.mkdirSync(pathToDirPhotosProduct);
+        } else {
+          rimraf(pathToDirPhotosProduct, function () {
+            fs.mkdirSync(pathToDirPhotosProduct);
+          });
+        }
+        let counter = 0;
+
+        const urlList = [];
+        for (const photo in files) {
+          const TYPE_PHOTO = String(files[photo].mimetype).slice(
+            files[photo].mimetype.indexOf("/") + 1
+          );
+
+          const PATH_TO_PHOTO = `${pathToDirPhotosProduct}/${_idProd}${counter}.${TYPE_PHOTO}`;
+          counter++;
+          console.log(`PATH_TO_PHOTO`, PATH_TO_PHOTO);
+          files[photo].mv(PATH_TO_PHOTO);
+          urlList.push(PATH_TO_PHOTO);
+        }
+        await Device.findOneAndUpdate({ _id: _idProd }, { img: urlList });
+      });
+
       return res.status(200).json({ message: "Success" });
     } catch (error) {
       return res.status(400).json({ message: error });

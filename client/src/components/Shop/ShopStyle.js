@@ -52,4 +52,13 @@ export default makeStyles({
     flexDirection: "row",
     alignItems: "center",
   },
+  select: {
+    display: "flex",
+    flex: "row",
+    alignItems: "center",
+    gap: 10,
+    "& .MuiInputBase-root": {
+      minWidth: 100,
+    },
+  },
 });
