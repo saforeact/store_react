@@ -6,6 +6,7 @@ const deviceRouter = require("./deviceRouter");
 const typeRouter = require("./typeRouter");
 const authRouter = require("./authRouter");
 const adminRouter = require("./adminRouter");
+const basketRouter = require("./basketRouter");
 const { checkToken, checkUserRole } = require("../middlewares");
 
 router.use("/admin", checkToken, checkUserRole, adminRouter);
@@ -14,5 +15,6 @@ router.use("/type", typeRouter);
 router.use("/brand", brandRouter);
 router.use("/device", deviceRouter);
 router.use("/auth", authRouter);
+router.use("/basket", checkToken, basketRouter);
 
 module.exports = router;

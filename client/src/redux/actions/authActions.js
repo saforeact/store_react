@@ -1,7 +1,7 @@
 import { authAPI } from "../../api/httpService";
 import { LOCAL_STORAGE_TOKEN } from "../../utils/constants";
 import { SET_AUTH } from "../actionTypes";
-import { dataClearAction } from "./commonActions";
+import { checkErrors } from "./commonActions";
 import { getUserAction } from "./userActions";
 
 export const setAuthAction = (flag) => {
@@ -18,8 +18,7 @@ export const signInAction = (form) => {
       localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(setAuthAction(false));
-      dispatch(dataClearAction());
+      dispatch(checkErrors());
     }
   };
 };
@@ -31,8 +30,7 @@ export const signUpAction = (form) => {
       localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(setAuthAction(false));
-      dispatch(dataClearAction());
+      dispatch(checkErrors());
     }
   };
 };

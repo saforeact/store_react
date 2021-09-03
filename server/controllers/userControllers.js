@@ -7,7 +7,6 @@ class UserController {
     const { password, _id, ...resUser } = user._doc;
     return res.status(200).json({ user: resUser });
   }
-
   async editProfileUser(req, res) {
     const body = req.body;
     try {

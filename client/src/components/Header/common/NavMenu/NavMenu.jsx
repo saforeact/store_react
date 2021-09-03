@@ -1,7 +1,12 @@
-import { Box, Button } from "@material-ui/core";
-import { Search, ShoppingCart } from "@material-ui/icons";
+import { Badge, Box, Button } from "@material-ui/core";
+import { ShoppingCart } from "@material-ui/icons";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import {
+  getLengthDeviceInBasketSelector,
+  isAuthSelector,
+} from "../../../../redux/selectors";
 import {
   aboutPage,
   cartPage,
@@ -11,11 +16,19 @@ import {
 import useStyle from "./NavMenuStyle";
 export default function NavMenu() {
   const classes = useStyle();
-  const navMenu = [
-    { text: "Магазин", href: shopPage },
-    { text: "Личный кабинет", href: personalAreaPage },
-    { text: "О нас", href: aboutPage },
-  ];
+  const basketLength = useSelector(getLengthDeviceInBasketSelector);
+  const isAuth = useSelector(isAuthSelector);
+
+  const navMenu = isAuth
+    ? [
+        { text: "Магазин", href: shopPage },
+        { text: "Личный кабинет", href: personalAreaPage },
+        { text: "О нас", href: aboutPage },
+      ]
+    : [
+        { text: "Магазин", href: shopPage },
+        { text: "О нас", href: aboutPage },
+      ];
   return (
     <Box className={classes.nav}>
       <Box className={classes.list}>
@@ -29,16 +42,17 @@ export default function NavMenu() {
           </NavLink>
         ))}
       </Box>
-      <Box className={classes.icons}>
-        <Button>
+      {isAuth && (
+        <Box className={classes.icons}>
           <Link to={cartPage}>
-            <ShoppingCart />
+            <Button>
+              <Badge badgeContent={basketLength} color="primary">
+                <ShoppingCart />
+              </Badge>
+            </Button>
           </Link>
-        </Button>
-        <Button>
-          <Search />
-        </Button>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 }

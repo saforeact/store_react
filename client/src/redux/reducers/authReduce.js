@@ -1,6 +1,8 @@
 import { DATA_CLEAR, SET_AUTH } from "../actionTypes";
 
-const initialStore = {};
+const initialStore = {
+  isAuth: false,
+};
 
 const authReduce = (state = initialStore, action) => {
   switch (action.type) {

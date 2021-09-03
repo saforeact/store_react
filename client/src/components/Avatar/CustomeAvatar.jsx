@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { dataClearAction } from "../../redux/actions/commonActions";
 import { userSelector } from "../../redux/selectors";
-import { personalAreaPage, profilePage } from "../../utils/constants";
+import { personalAreaPage, profilePage, shopPage } from "../../utils/constants";
 const CustomeAvatar = () => {
   const { data } = useSelector(userSelector);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,6 +29,7 @@ const CustomeAvatar = () => {
     handleClose();
   };
   const logOut = () => {
+    history.push(shopPage);
     dispatch(dataClearAction());
     handleClose();
   };

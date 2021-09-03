@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import { addDeviceToBasketBasketAction } from "../../redux/actions/basketActions";
 import {
   getOneDevicesAction,
   setDevicesAction,
@@ -20,6 +21,7 @@ const OneProductPage = () => {
   const device = useSelector(activeDeviceSelector);
   const isAdmin = useSelector(isAdminSelector);
   const [images, setImages] = useState([]);
+  const [counter, setCounter] = useState(1);
   const history = useHistory();
   const showDescriptio = () => {
     if (device && device.description) {
@@ -59,6 +61,9 @@ const OneProductPage = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const addDeviceToBasket = () => {
+    dispatch(addDeviceToBasketBasketAction({ idProduct, counter }));
+  };
   return !isEmpty(device) ? (
     <Container className={classes.wrapper}>
       <Box>
@@ -85,8 +90,8 @@ const OneProductPage = () => {
         </Box>
         <Box className={classes.descriptioList}>{showDescriptio()}</Box>
         <Box className={classes.buy}>
-          <Counter />
-          <Button>Add to Card</Button>
+          <Counter value={counter} setValue={setCounter} />
+          <Button onClick={addDeviceToBasket}>Add to Basket</Button>
         </Box>
       </Box>
     </Container>

@@ -4,6 +4,7 @@ import {
   ADMIN,
   API,
   AUTH,
+  BASKET,
   BRAND,
   CHANGE_PHOTOS_FROM_PRODUCT,
   CREATE_PRODUCT,
@@ -144,6 +145,12 @@ const editPhotoUser = (avatar) => {
     props: photo,
   });
 };
+
+//basketAPI
+const getBasket = () => request({ url: API + BASKET });
+const addDeviceToBasket = (props) =>
+  request({ url: API + BASKET, method: "post", props });
+
 export const deviceAPI = {
   getAllDevices,
   getOneDevices,
@@ -168,4 +175,8 @@ export const userAPI = {
   getUser,
   editUser,
   editPhotoUser,
+};
+export const basketAPI = {
+  getBasket,
+  addDeviceToBasket,
 };

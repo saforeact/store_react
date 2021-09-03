@@ -1,9 +1,9 @@
 import { Button, Input } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import useStyles from "./CounterStyle";
-const Counter = () => {
+const Counter = ({ value, setValue }) => {
   const classes = useStyles();
-  const [value, setValue] = useState(1);
+
   const decrement = () => {
     if (value >= 2) {
       setValue(value - 1);
@@ -12,6 +12,7 @@ const Counter = () => {
   const increment = () => {
     setValue(value + 1);
   };
+
   return (
     <Input
       className={classes.wrapper}

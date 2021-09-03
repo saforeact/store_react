@@ -34,3 +34,4 @@ export const CHANGE_PHOTOS_FROM_PRODUCT = "/changePhotosFromProduct";
 export const BRAND = "/brand";
 export const TYPE = "/type";
 export const DEVICES = "/device";
+export const BASKET = "/basket";

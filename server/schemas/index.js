@@ -26,6 +26,7 @@ module.exports = {
     {
       deviceId: { type: mongoose.Types.ObjectId, require: true },
       basketId: { type: mongoose.Types.ObjectId, require: true },
+      counter: { type: Number, require: true },
     },
     {
       versionKey: false,

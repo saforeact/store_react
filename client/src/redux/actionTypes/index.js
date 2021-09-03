@@ -15,5 +15,9 @@ export const SET_DATA = "SET_DATA";
 //devices
 export const SET_DEVICES = "SET_DEVICES";
 
+//basket
+export const SET_BASKET_DATA = "SET_BASKET_DATA";
+export const ADD_BASKET_DATA = "ADD_BASKET_DATA";
+
 //common
 export const DATA_CLEAR = "DATA_CLEAR";

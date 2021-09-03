@@ -22,13 +22,16 @@ const getRolesMenu = (role) => {
   switch (role) {
     case "ADMIN":
       return adminMenu;
-    default:
+    case "USER":
       return userMenu;
+    default:
+      return notAuthMenu;
   }
 };
+const notAuthMenu = [{ text: "Shop", href: shopPage }];
 const userMenu = [
   { text: "Profile", href: profilePage },
-  { text: "Shop", href: shopPage },
+  ...notAuthMenu,
   { text: "Setting", href: settingPage },
 ];
 const adminMenu = [
@@ -37,13 +40,7 @@ const adminMenu = [
   { text: "Create product", href: createProduct },
 ];
 
-const SideBar = ({
-  open,
-  setOpenHendler,
-  className,
-
-  ...props
-}) => {
+const SideBar = ({ open, setOpenHendler, className, ...props }) => {
   const classes = useStyle();
   const { data } = useSelector(userSelector);
 

@@ -1,4 +1,4 @@
-const { User, Device, Type, Brand } = require("../models");
+const { User, Basket } = require("../models");
 const Bcrypt = require("../utils/Bcrypt");
 
 const Token = require("../utils/Token");
@@ -20,6 +20,7 @@ class AuthController {
       photo: "img/avatar.png",
     });
     await user.save();
+
     const token = new Token({ _id: user._id }).create();
     return res
       .status(200)
@@ -28,6 +29,9 @@ class AuthController {
 
   async authorizationUser(req, res) {
     const { email, password } = req.body;
+    if (!email.trim().length || !password.trim().length) {
+      return res.status(400).json();
+    }
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "No such user" });

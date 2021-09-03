@@ -6,3 +6,4 @@ export { default as UsersRole } from "./UsersRole/UsersRoleContainer";
 export { default as CreateProductPage } from "./CreateProductPage/CreateProductPage";
 export { default as Shop } from "./Shop/Shop";
 export { default as OneProductPage } from "./OneProductPage/OneProductPage";
+export { default as Basket } from "./Basket/Basket";

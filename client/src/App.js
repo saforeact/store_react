@@ -2,8 +2,10 @@ import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+
 import useStyles from "./AppStyles";
 import {
+  Basket,
   CreateProductPage,
   Header,
   OneProductPage,
@@ -13,8 +15,10 @@ import {
   UsersRole,
 } from "./components";
 import { checkToken } from "./hoc/checkToken";
+import { getBasketAction } from "./redux/actions/basketActions";
 import { getUserAction } from "./redux/actions/userActions";
 import {
+  cartPage,
   createProduct,
   devicePage,
   editProductPage,
@@ -35,6 +39,7 @@ const App = () => {
   useEffect(() => {
     if (localStorage.getItem(LOCAL_STORAGE_TOKEN)) {
       dispatch(getUserAction());
+      dispatch(getBasketAction());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,6 +69,7 @@ const App = () => {
               path={editProductPage}
               component={checkToken(CreateProductPage)}
             />
+            <Route path={cartPage} component={checkToken(Basket)} />
             <Redirect to={shopPage} />
           </Switch>
         </Box>

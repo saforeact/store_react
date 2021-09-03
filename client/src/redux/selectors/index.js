@@ -18,3 +18,7 @@ export const activeDeviceSelector = (state) =>
     brand: "",
     description: [],
   });
+export const getLengthDeviceInBasketSelector = (state) =>
+  state.basket.devicesInBasket.length;
+export const getDeviceInBasketSelector = (state) =>
+  state.basket.devicesInBasket;

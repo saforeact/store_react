@@ -42,6 +42,7 @@ const Header = ({
           <NavMenu />
         </Box>
       </Container>
+      )
     </Box>
   );
 };
