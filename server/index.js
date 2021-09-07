@@ -2,14 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-
+const cookieParser = require("cookie-parser");
 const router = require("./routes");
 const conectToDataBase = require("./db");
 const app = express();
 
 const port = process.env.PORT;
-
-app.use(cors());
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsConfig));
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   fileUpload({

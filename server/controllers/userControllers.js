@@ -1,10 +1,18 @@
 const { User } = require("../models");
 const fs = require("fs");
+const Token = require("../utils/Token");
 
 class UserController {
   async getUser(req, res) {
     const user = await User.findOne({ _id: req.body._id });
+
     const { password, _id, ...resUser } = user._doc;
+    const token = new Token({ _id: user._id });
+    res.cookie("token", token.create(), {
+      httpOnly: true,
+      expires: token.expiryCookies,
+    });
+
     return res.status(200).json({ user: resUser });
   }
   async editProfileUser(req, res) {

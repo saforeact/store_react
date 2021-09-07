@@ -148,7 +148,6 @@ class AdminController {
 
           const PATH_TO_PHOTO = `${pathToDirPhotosProduct}/${_idProd}${counter}.${TYPE_PHOTO}`;
           counter++;
-          console.log(`PATH_TO_PHOTO`, PATH_TO_PHOTO);
           files[photo].mv(PATH_TO_PHOTO);
           urlList.push(PATH_TO_PHOTO);
         }

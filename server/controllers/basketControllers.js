@@ -1,4 +1,5 @@
 const { Basket, BasketDevice, Device, Brand, Type } = require("../models");
+const Stripe = require("stripe");
 
 class BasketController {
   async getBasket(req, res) {
@@ -24,6 +25,7 @@ class BasketController {
             brand: brand.name,
             category: caterory.name,
             img: findDevice.img[0],
+            price: findDevice.price,
           });
         }
         return res.status(200).json({ devicesInBasket: resDevices });
@@ -70,6 +72,55 @@ class BasketController {
     } catch (error) {
       return res.status(500).json({ error });
     }
+  }
+  async changeCounter(req, res) {
+    const { idProduct, counter, _id } = req.body;
+    const basket = await Basket.findOne({ userId: _id });
+    await BasketDevice.findOneAndUpdate(
+      { deviceId: idProduct, basketId: basket._id },
+      { counter }
+    );
+    res.status(200).json({});
+  }
+  async removeItemFromBasket(req, res) {
+    const { idProduct, _id } = req.body;
+
+    const basket = await Basket.findOne({ userId: _id });
+    await BasketDevice.findOneAndDelete({
+      deviceId: idProduct,
+      basketId: basket._id,
+    });
+    res.status(200).json({});
+  }
+  async buyDevicesFromBasket(req, res) {
+    const { _id } = req.body;
+
+    const basket = await Basket.findOne({ userId: _id });
+    const basketDevices = await BasketDevice.find({ basketId: basket._id });
+    let totalPrice = 0;
+    for await (const item of basketDevices) {
+      const device = await Device.findById(item.deviceId);
+      const price = device.price * item.counter;
+      totalPrice += price;
+    }
+
+    const stripe = Stripe(process.env.API_KEY_STRIPE);
+
+    stripe.charges.create(
+      {
+        amount: totalPrice * 100,
+        currency: "uah",
+        source: "tok_amex", // obtained with Stripe.js
+        metadata: {},
+      },
+      (charges, err) => {
+        console.log(`charges`, charges);
+      }
+    );
+    // stripe.charges.retrieve("ch_3JWg7YI2bpM0aZ8C0NwMW2nM", {
+    //   stripeAccount: "acct_1JWg7VI2bpM0aZ8C",
+    // });
+    res.status(200).json();
   }
 }
 

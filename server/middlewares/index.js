@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const Token = require("../utils/Token");
 const checkToken = (res, req, next) => {
-  const token = res.headers.authorization;
+  const { token } = res.cookies;
 
   if (!token || token == null) {
     return req.status(412).json({ message: "No token" });

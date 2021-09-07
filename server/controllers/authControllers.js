@@ -21,10 +21,13 @@ class AuthController {
     });
     await user.save();
 
-    const token = new Token({ _id: user._id }).create();
-    return res
-      .status(200)
-      .json({ message: "The user was successfully created", token });
+    const token = new Token({ _id: user._id });
+    res
+      .cookie("token", token.create(), {
+        httpOnly: true,
+        expires: token.expiryCookies,
+      })
+      .send();
   }
 
   async authorizationUser(req, res) {
@@ -44,8 +47,14 @@ class AuthController {
     if (!decodedPass) {
       return res.status(400).json({ message: "No such user" });
     }
-    const token = new Token({ _id: user._id }).create();
-    return res.status(200).json({ token });
+    const token = new Token({ _id: user._id });
+
+    res
+      .cookie("token", token.create(), {
+        httpOnly: true,
+        expires: token.expiryCookies,
+      })
+      .send();
   }
 }
 
