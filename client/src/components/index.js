@@ -8,3 +8,4 @@ export { default as Shop } from "./Shop/Shop";
 export { default as OneProductPage } from "./OneProductPage/OneProductPage";
 export { default as Basket } from "./Basket/Basket";
 export { default as PayPage } from "./PayPage/PayPage";
+export { default as SuccessPay } from "./SuccessPay/SuccessPay";

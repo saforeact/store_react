@@ -46,10 +46,25 @@ export const removeItemFromBasketAction = (idProduct) => {
     }
   };
 };
+export const removeAllItemFromBasketAction = () => {
+  return async (dispatch) => {
+    try {
+      await basketAPI.removeAllItemFromBasket();
+      dispatch(getBasketAction());
+    } catch (error) {
+      dispatch(checkErrors(error));
+    }
+  };
+};
 export const buyDevicesAction = () => {
   return async (dispatch) => {
     try {
-      await basketAPI.buyDevicesFromBasket();
+      const { data } = await basketAPI.buyDevicesFromBasket();
+
+      // window.close();
+      window.location = data.url;
+      console.log(`window`, window);
+      console.log(`data`, data);
       // dispatch(getBasketAction());
     } catch (error) {
       dispatch(checkErrors(error));

@@ -1,18 +1,17 @@
 import { Box, Button, Container } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { buyDevicesAction } from "../../redux/actions/basketActions";
 import { getDeviceInBasketSelector } from "../../redux/selectors";
-import { payPage } from "../../utils/constants";
 import BasketItem from "./BasketItem";
 import useStyles from "./BasketStyle";
 const Basket = () => {
   const basket = useSelector(getDeviceInBasketSelector);
   const classes = useStyles();
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const buyHendler = () => {
-    history.push(payPage);
+    dispatch(buyDevicesAction());
   };
 
   return (
@@ -23,8 +22,6 @@ const Basket = () => {
         </Box>
       ))}
       <Button onClick={buyHendler}>Buy</Button>
-
-      {/* <MyCheckoutForm /> */}
     </Container>
   );
 };

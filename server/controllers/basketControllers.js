@@ -92,35 +92,51 @@ class BasketController {
     });
     res.status(200).json({});
   }
+  async removeAllItemFromBasket(req, res) {
+    const { _id } = req.body;
+
+    const basket = await Basket.findOne({ userId: _id });
+
+    const devicesInBasket = await BasketDevice.find({
+      basketId: basket._id,
+    });
+
+    for await (const item of devicesInBasket) {
+      await BasketDevice.findByIdAndDelete(item._id);
+    }
+    res.status(200).json({});
+  }
   async buyDevicesFromBasket(req, res) {
     const { _id } = req.body;
 
     const basket = await Basket.findOne({ userId: _id });
     const basketDevices = await BasketDevice.find({ basketId: basket._id });
-    let totalPrice = 0;
+
+    let line_items = [];
     for await (const item of basketDevices) {
       const device = await Device.findById(item.deviceId);
-      const price = device.price * item.counter;
-      totalPrice += price;
+      line_items.push({
+        price_data: {
+          unit_amount: device.price * 100,
+          currency: "uah",
+          product_data: {
+            name: device.name,
+          },
+        },
+
+        quantity: item.counter,
+      });
     }
 
     const stripe = Stripe(process.env.API_KEY_STRIPE);
-
-    stripe.charges.create(
-      {
-        amount: totalPrice * 100,
-        currency: "uah",
-        source: "tok_amex", // obtained with Stripe.js
-        metadata: {},
-      },
-      (charges, err) => {
-        console.log(`charges`, charges);
-      }
-    );
-    // stripe.charges.retrieve("ch_3JWg7YI2bpM0aZ8C0NwMW2nM", {
-    //   stripeAccount: "acct_1JWg7VI2bpM0aZ8C",
-    // });
-    res.status(200).json();
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: `${process.env.CLIENT_URL}success`,
+      cancel_url: `${process.env.CLIENT_URL}cart`,
+    });
+    res.json({ url: session.url });
   }
 }
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   ADD_PHOTO_TO_PROD,
   ADMIN,
+  ALL,
   API,
   AUTH,
   BASKET,
@@ -152,6 +153,8 @@ const addDeviceToBasket = (props) =>
 const removeItemFromBasket = (props) =>
   request({ url: API + BASKET, method: "delete", props });
 const buyDevicesFromBasket = () => request({ url: API + BASKET + BUY });
+const removeAllItemFromBasket = () =>
+  request({ url: API + BASKET + ALL, method: "delete" });
 
 const changeCounterInDeviceCToken = createCancelToken();
 const changeCounterInDevice = (props) =>
@@ -192,5 +195,6 @@ export const basketAPI = {
   addDeviceToBasket,
   changeCounterInDevice,
   removeItemFromBasket,
+  removeAllItemFromBasket,
   buyDevicesFromBasket,
 };

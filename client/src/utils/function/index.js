@@ -16,7 +16,7 @@ export const showForm = (list = {} || [], onChange) => {
         key={name}
         value={value}
         onChange={onChangeHendler}
-        placeholder={name[0].toUpperCase() + name.slice(1)}
+        label={name[0].toUpperCase() + name.slice(1)}
         {...item}
       >
         {name}
@@ -33,7 +33,7 @@ export const showForm = (list = {} || [], onChange) => {
           onChange={(e) => {
             onChange((p) => ({ ...p, [key]: e.target.value }));
           }}
-          placeholder={key[0].toUpperCase() + key.slice(1)}
+          label={key[0].toUpperCase() + key.slice(1)}
         >
           {key}
         </TextField>

@@ -5,6 +5,8 @@ export const profilePage = "/profile";
 export const userRolesPage = "/usersRole";
 export const personalAreaPage = "/personalArea";
 export const cartPage = "/cart";
+export const success = "/success";
+export const canceled = "/?canceled=true"; //localhost:3000/?canceled=true
 export const payPage = "/pay";
 export const settingPage = "/setting";
 export const createProduct = "/createProduct";
@@ -34,4 +36,5 @@ export const BRAND = "/brand";
 export const TYPE = "/type";
 export const DEVICES = "/device";
 export const BASKET = "/basket";
+export const ALL = "/all";
 export const BUY = "/buy";
