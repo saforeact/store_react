@@ -1,5 +1,3 @@
-export const LOCAL_STORAGE_TOKEN = "token";
-
 export const homePage = "/";
 export const shopPage = "/shop";
 export const aboutPage = "/about";
@@ -7,6 +5,7 @@ export const profilePage = "/profile";
 export const userRolesPage = "/usersRole";
 export const personalAreaPage = "/personalArea";
 export const cartPage = "/cart";
+export const payPage = "/pay";
 export const settingPage = "/setting";
 export const createProduct = "/createProduct";
 export const editProductLink = "/editProduct";
@@ -35,3 +34,4 @@ export const BRAND = "/brand";
 export const TYPE = "/type";
 export const DEVICES = "/device";
 export const BASKET = "/basket";
+export const BUY = "/buy";

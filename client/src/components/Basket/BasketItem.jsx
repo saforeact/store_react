@@ -1,13 +1,37 @@
-import { Box } from "@material-ui/core";
-import React, { useState } from "react";
+import { Box, Button } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  changeCounterInDeviceAction,
+  removeItemFromBasketAction,
+} from "../../redux/actions/basketActions";
+import { Delete } from "@material-ui/icons";
 import { Counter } from "../UI";
 import useStyles from "./BasketItemStyle";
 const BasketItem = ({ device }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [value, setValue] = useState(device.counter);
-
   const standardTypeOfText = (text = "") =>
     text[0].toLocaleUpperCase() + text.slice(1);
+
+  let timer = useRef(null);
+  useEffect(() => {
+    if (timer) {
+      clearTimeout(timer.current);
+    }
+    const sendNewData = () => {
+      dispatch(changeCounterInDeviceAction(device.deviceId, value));
+      clearTimeout(timer.current);
+    };
+    if (value !== device.counter) {
+      timer.current = setTimeout(sendNewData, 500);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  const deleteItemFromBasket = () => {
+    dispatch(removeItemFromBasketAction(device.deviceId));
+  };
   return (
     <Box className={classes.wrapper}>
       <Box className={classes.subItem}>
@@ -41,6 +65,11 @@ const BasketItem = ({ device }) => {
         <span className={classes.content}>
           {standardTypeOfText(device.name)}
         </span>
+      </Box>
+      <Box>
+        <Button onClick={deleteItemFromBasket}>
+          <Delete />
+        </Button>
       </Box>
     </Box>
   );

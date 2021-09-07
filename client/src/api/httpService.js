@@ -6,6 +6,7 @@ import {
   AUTH,
   BASKET,
   BRAND,
+  BUY,
   CHANGE_PHOTOS_FROM_PRODUCT,
   CREATE_PRODUCT,
   DELETE_USERS,
@@ -14,7 +15,6 @@ import {
   EDIT_PHOTO,
   EDIT_PRODUCT,
   GET_ALL_USERS,
-  LOCAL_STORAGE_TOKEN,
   LOGIN,
   REGISTER,
   SET_NEW_USERS,
@@ -24,8 +24,7 @@ import {
 import { instance } from "./axios";
 
 export const request = ({ url, method = "get", props = {} }) => {
-  const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-  return instance(token)[method](url, props);
+  return instance[method](url, props);
 };
 export const requestCancel = ({
   url,
@@ -33,8 +32,7 @@ export const requestCancel = ({
   cancelToken,
   props = {},
 }) => {
-  const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
-  return instance(token)[method](url, {
+  return instance[method](url, {
     cancelToken: cancelToken.token,
     ...props,
   });
@@ -115,13 +113,13 @@ const editProduct = (props) =>
 const editPhotoProduct = (photos, idProduct) => {
   const resPhoto = new FormData();
   [...photos].map((item, idx) => resPhoto.append(`photo ${idx}`, item));
-  console.log(`idProduct`, idProduct);
   return request({
     url: API + ADMIN + CHANGE_PHOTOS_FROM_PRODUCT + `?_idProd=${idProduct}`,
     method: "post",
     props: resPhoto,
   });
 };
+
 //authAPI
 
 const signIn = (props) =>
@@ -147,9 +145,22 @@ const editPhotoUser = (avatar) => {
 };
 
 //basketAPI
+
 const getBasket = () => request({ url: API + BASKET });
 const addDeviceToBasket = (props) =>
   request({ url: API + BASKET, method: "post", props });
+const removeItemFromBasket = (props) =>
+  request({ url: API + BASKET, method: "delete", props });
+const buyDevicesFromBasket = () => request({ url: API + BASKET + BUY });
+
+const changeCounterInDeviceCToken = createCancelToken();
+const changeCounterInDevice = (props) =>
+  requestCancel({
+    url: API + BASKET,
+    method: "put",
+    cancelToken: changeCounterInDeviceCToken(),
+    props,
+  });
 
 export const deviceAPI = {
   getAllDevices,
@@ -179,4 +190,7 @@ export const userAPI = {
 export const basketAPI = {
   getBasket,
   addDeviceToBasket,
+  changeCounterInDevice,
+  removeItemFromBasket,
+  buyDevicesFromBasket,
 };

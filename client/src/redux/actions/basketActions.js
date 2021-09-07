@@ -12,7 +12,7 @@ export const getBasketAction = () => {
       const { data } = await basketAPI.getBasket();
       dispatch(setBasketData(data));
     } catch (error) {
-      dispatch(checkErrors());
+      dispatch(checkErrors(error));
     }
   };
 };
@@ -22,7 +22,37 @@ export const addDeviceToBasketBasketAction = (idProduct, counter) => {
       await basketAPI.addDeviceToBasket(idProduct, counter);
       dispatch(getBasketAction());
     } catch (error) {
-      dispatch(checkErrors());
+      dispatch(checkErrors(error));
+    }
+  };
+};
+export const changeCounterInDeviceAction = (idProduct, counter) => {
+  return async (dispatch) => {
+    try {
+      await basketAPI.changeCounterInDevice({ idProduct, counter });
+      dispatch(getBasketAction());
+    } catch (error) {
+      dispatch(checkErrors(error));
+    }
+  };
+};
+export const removeItemFromBasketAction = (idProduct) => {
+  return async (dispatch) => {
+    try {
+      await basketAPI.removeItemFromBasket({ data: { idProduct } });
+      dispatch(getBasketAction());
+    } catch (error) {
+      dispatch(checkErrors(error));
+    }
+  };
+};
+export const buyDevicesAction = () => {
+  return async (dispatch) => {
+    try {
+      await basketAPI.buyDevicesFromBasket();
+      // dispatch(getBasketAction());
+    } catch (error) {
+      dispatch(checkErrors(error));
     }
   };
 };

@@ -10,7 +10,11 @@ import {
   getOneDevicesAction,
   setDevicesAction,
 } from "../../redux/actions/devicesActions";
-import { activeDeviceSelector, isAdminSelector } from "../../redux/selectors";
+import {
+  activeDeviceSelector,
+  isAdminSelector,
+  isAuthSelector,
+} from "../../redux/selectors";
 import { editProductLink } from "../../utils/constants";
 import { Counter } from "../UI";
 import useStyles from "./OneProductPageStyle";
@@ -20,6 +24,7 @@ const OneProductPage = () => {
   const dispatch = useDispatch();
   const device = useSelector(activeDeviceSelector);
   const isAdmin = useSelector(isAdminSelector);
+  const isAuth = useSelector(isAuthSelector);
   const [images, setImages] = useState([]);
   const [counter, setCounter] = useState(1);
   const history = useHistory();
@@ -89,10 +94,12 @@ const OneProductPage = () => {
           )}
         </Box>
         <Box className={classes.descriptioList}>{showDescriptio()}</Box>
-        <Box className={classes.buy}>
-          <Counter value={counter} setValue={setCounter} />
-          <Button onClick={addDeviceToBasket}>Add to Basket</Button>
-        </Box>
+        {isAuth && (
+          <Box className={classes.buy}>
+            <Counter value={counter} setValue={setCounter} />
+            <Button onClick={addDeviceToBasket}>Add to Basket</Button>
+          </Box>
+        )}
       </Box>
     </Container>
   ) : null;

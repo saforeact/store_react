@@ -1,6 +1,7 @@
 import { userAPI } from "../../api/httpService";
 import { SET_LOADING, SET_USER } from "../actionTypes";
 import { setAuthAction } from "./authActions";
+import { getBasketAction } from "./basketActions";
 import { checkErrors } from "./commonActions";
 export const setUserAction = (payload) => {
   return {
@@ -28,6 +29,7 @@ export const getUserAction = () => {
           photo: `${process.env.REACT_APP_URL_SERVER}/${data.user.photo}`,
         })
       );
+      dispatch(getBasketAction());
     } catch (error) {
       dispatch(checkErrors(error));
     } finally {

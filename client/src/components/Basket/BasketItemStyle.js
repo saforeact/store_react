@@ -14,8 +14,10 @@ export default makeStyles({
     display: "flex",
     textAlign: "center",
     flexDirection: "column",
+    alignItems: "center",
     justifyContent: "space-between",
     gap: 20,
+    width: 170,
   },
   content: {
     paddingBottom: 45,

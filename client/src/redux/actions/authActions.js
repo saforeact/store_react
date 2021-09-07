@@ -1,5 +1,4 @@
 import { authAPI } from "../../api/httpService";
-import { LOCAL_STORAGE_TOKEN } from "../../utils/constants";
 import { SET_AUTH } from "../actionTypes";
 import { checkErrors } from "./commonActions";
 import { getUserAction } from "./userActions";
@@ -13,24 +12,20 @@ export const setAuthAction = (flag) => {
 export const signInAction = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await authAPI.signIn(form);
-      const { token } = data;
-      localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+      await authAPI.signIn(form);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(checkErrors());
+      dispatch(checkErrors(error));
     }
   };
 };
 export const signUpAction = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await authAPI.signUp(form);
-      const { token } = data;
-      localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+      await authAPI.signUp(form);
       dispatch(getUserAction());
     } catch (error) {
-      dispatch(checkErrors());
+      dispatch(checkErrors(error));
     }
   };
 };

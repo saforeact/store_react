@@ -2,19 +2,18 @@ import { Box } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import useStyles from "./AppStyles";
 import {
   Basket,
   CreateProductPage,
   Header,
   OneProductPage,
+  PayPage,
   SettingPage,
   Shop,
   SideBar,
   UsersRole,
 } from "./components";
-import { checkToken } from "./hoc/checkToken";
 import { getBasketAction } from "./redux/actions/basketActions";
 import { getUserAction } from "./redux/actions/userActions";
 import {
@@ -22,11 +21,12 @@ import {
   createProduct,
   devicePage,
   editProductPage,
-  LOCAL_STORAGE_TOKEN,
+  payPage,
   settingPage,
   shopPage,
   userRolesPage,
 } from "./utils/constants";
+
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -37,10 +37,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem(LOCAL_STORAGE_TOKEN)) {
-      dispatch(getUserAction());
-      dispatch(getBasketAction());
-    }
+    dispatch(getUserAction());
+    dispatch(getBasketAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,19 +55,14 @@ const App = () => {
         />
         <Box>
           <Switch>
-            <Route path={settingPage} component={checkToken(SettingPage)} />
-            <Route path={userRolesPage} component={checkToken(UsersRole)} />
+            <Route path={settingPage} component={SettingPage} />
+            <Route path={userRolesPage} component={UsersRole} />
             <Route path={shopPage} component={Shop} />
             <Route path={devicePage} component={OneProductPage} />
-            <Route
-              path={createProduct}
-              component={checkToken(CreateProductPage)}
-            />
-            <Route
-              path={editProductPage}
-              component={checkToken(CreateProductPage)}
-            />
-            <Route path={cartPage} component={checkToken(Basket)} />
+            <Route path={createProduct} component={CreateProductPage} />
+            <Route path={editProductPage} component={CreateProductPage} />
+            <Route path={cartPage} component={Basket} />
+            <Route path={payPage} component={PayPage} />
             <Redirect to={shopPage} />
           </Switch>
         </Box>
