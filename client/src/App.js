@@ -11,7 +11,6 @@ import {
   CreateProductPage,
   Header,
   OneProductPage,
-  PayPage,
   SettingPage,
   Shop,
   SideBar,
@@ -73,11 +72,6 @@ const App = () => {
             <Route path={cartPage} component={Basket} />
             <Route path={success} component={SuccessPay} />
             <Route path={canceled} component={Basket} />
-            <Route path={payPage}>
-              <Elements stripe={stripePromise}>
-                <PayPage />
-              </Elements>
-            </Route>
             <Redirect to={shopPage} />
           </Switch>
         </Box>
