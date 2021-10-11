@@ -4,7 +4,7 @@ export default makeStyles({
   app_wrapper: {
     display: "flex",
     flexDirection: "column",
-    gap: 10,
+    // gap: 10,
   },
   app_header: {},
   app_contentBox: {},

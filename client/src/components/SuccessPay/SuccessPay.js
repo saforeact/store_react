@@ -10,6 +10,7 @@ export default function SuccessPay() {
   useEffect(() => {
     disptach(removeAllItemFromBasketAction());
     history.push(shopPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return null;
 }

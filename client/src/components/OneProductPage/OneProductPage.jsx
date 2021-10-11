@@ -1,4 +1,4 @@
-import { Box, Button, Container } from "@material-ui/core";
+import { Box, Button, Container, LinearProgress } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import {
 } from "../../redux/actions/devicesActions";
 import {
   activeDeviceSelector,
+  devicesLoadingSelector,
   isAdminSelector,
   isAuthSelector,
 } from "../../redux/selectors";
@@ -25,6 +26,7 @@ const OneProductPage = () => {
   const device = useSelector(activeDeviceSelector);
   const isAdmin = useSelector(isAdminSelector);
   const isAuth = useSelector(isAuthSelector);
+  const loading = useSelector(devicesLoadingSelector);
   const [images, setImages] = useState([]);
   const [counter, setCounter] = useState(1);
   const history = useHistory();
@@ -69,7 +71,7 @@ const OneProductPage = () => {
   const addDeviceToBasket = () => {
     dispatch(addDeviceToBasketBasketAction({ idProduct, counter }));
   };
-  return !isEmpty(device) ? (
+  return !loading ? (
     <Container className={classes.wrapper}>
       <Box>
         <ImageGallery
@@ -102,7 +104,9 @@ const OneProductPage = () => {
         )}
       </Box>
     </Container>
-  ) : null;
+  ) : (
+    <LinearProgress />
+  );
 };
 
 export default OneProductPage;

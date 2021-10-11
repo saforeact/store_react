@@ -6,4 +6,11 @@ export default makeStyles({
     flexDirection: "column",
     gap: 15,
   },
+  isEmpty: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "end",
+    height: "40vh",
+  },
 });

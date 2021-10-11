@@ -1,4 +1,5 @@
 import { history } from "../..";
+import { commonAPI } from "../../api/httpService";
 import { shopPage } from "../../utils/constants";
 import { DATA_CLEAR } from "../actionTypes";
 import { setAuthAction } from "./authActions";
@@ -19,5 +20,12 @@ export const checkErrors = (error) => {
         history.push(shopPage);
       }
     }
+  };
+};
+export const logoutAction = () => {
+  return async (dispatch) => {
+    try {
+      await commonAPI.logout();
+    } catch (error) {}
   };
 };

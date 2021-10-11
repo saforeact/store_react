@@ -1,7 +1,4 @@
 import { Box } from "@material-ui/core";
-
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -14,10 +11,9 @@ import {
   SettingPage,
   Shop,
   SideBar,
-  UsersRole,
   SuccessPay,
+  UsersRole,
 } from "./components";
-
 import { getBasketAction } from "./redux/actions/basketActions";
 import { getUserAction } from "./redux/actions/userActions";
 import {
@@ -26,7 +22,6 @@ import {
   createProduct,
   devicePage,
   editProductPage,
-  payPage,
   settingPage,
   shopPage,
   success,
@@ -36,9 +31,7 @@ import {
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const stripePromise = loadStripe(
-    "pk_test_51JWg7VI2bpM0aZ8CPb7vfjlLjnI8V1fizLg0t6ORd7breg7TNzJE1okxiOAurHSzk3EiOEaP6jwrrFWYTe8q5Fhg00XTVq9sEx"
-  );
+
   const [openSideBar, setOpenSideBar] = useState(false);
   const setOpenSideBarHendler = () => {
     setOpenSideBar(!openSideBar);

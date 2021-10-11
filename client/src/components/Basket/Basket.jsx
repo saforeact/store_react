@@ -1,4 +1,4 @@
-import { Box, Button, Container } from "@material-ui/core";
+import { Box as h3, Button, Container } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { buyDevicesAction } from "../../redux/actions/basketActions";
@@ -14,14 +14,18 @@ const Basket = () => {
     dispatch(buyDevicesAction());
   };
 
-  return (
+  return basket.length ? (
     <Container className={classes.wrapper}>
       {basket.map((device) => (
-        <Box key={device.deviceId}>
+        <h3 key={device.deviceId}>
           <BasketItem device={device} />
-        </Box>
+        </h3>
       ))}
       <Button onClick={buyHendler}>Buy</Button>
+    </Container>
+  ) : (
+    <Container className={classes.isEmpty}>
+      <h1>Your basket is empty, first add to it what you want to buy</h1>
     </Container>
   );
 };

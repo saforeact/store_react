@@ -14,6 +14,7 @@ export const SET_DATA = "SET_DATA";
 
 //devices
 export const SET_DEVICES = "SET_DEVICES";
+export const SET_DEVICE_LOADING = "SET_DEVICE_LOADING";
 
 //basket
 export const SET_BASKET_DATA = "SET_BASKET_DATA";

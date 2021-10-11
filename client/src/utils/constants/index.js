@@ -16,6 +16,7 @@ export const devicePage = "/device/:idProduct";
 
 export const API = "/api";
 export const USER = API + "/user";
+export const LOGOUT = "/logout";
 
 export const AUTH = "/auth";
 export const LOGIN = "/login";

@@ -17,6 +17,7 @@ import {
   EDIT_PRODUCT,
   GET_ALL_USERS,
   LOGIN,
+  LOGOUT,
   REGISTER,
   SET_NEW_USERS,
   TYPE,
@@ -165,6 +166,10 @@ const changeCounterInDevice = (props) =>
     props,
   });
 
+//commonAPI
+
+const logout = () => request({ url: USER + LOGOUT });
+
 export const deviceAPI = {
   getAllDevices,
   getOneDevices,
@@ -197,4 +202,7 @@ export const basketAPI = {
   removeItemFromBasket,
   removeAllItemFromBasket,
   buyDevicesFromBasket,
+};
+export const commonAPI = {
+  logout,
 };

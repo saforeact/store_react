@@ -3,7 +3,10 @@ import { isEmpty } from "lodash";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { dataClearAction } from "../../redux/actions/commonActions";
+import {
+  dataClearAction,
+  logoutAction,
+} from "../../redux/actions/commonActions";
 import { userSelector } from "../../redux/selectors";
 import { personalAreaPage, profilePage, shopPage } from "../../utils/constants";
 const CustomeAvatar = () => {
@@ -30,6 +33,7 @@ const CustomeAvatar = () => {
   };
   const logOut = () => {
     history.push(shopPage);
+    dispatch(logoutAction());
     dispatch(dataClearAction());
     handleClose();
   };

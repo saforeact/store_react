@@ -60,12 +60,7 @@ export const buyDevicesAction = () => {
   return async (dispatch) => {
     try {
       const { data } = await basketAPI.buyDevicesFromBasket();
-
-      // window.close();
       window.location = data.url;
-      console.log(`window`, window);
-      console.log(`data`, data);
-      // dispatch(getBasketAction());
     } catch (error) {
       dispatch(checkErrors(error));
     }

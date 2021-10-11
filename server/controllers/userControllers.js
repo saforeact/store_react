@@ -24,6 +24,7 @@ class UserController {
       return res.status(500).json({ message: error });
     }
   }
+
   async editProfilePhotoUser(req, res) {
     const { _id } = req.body;
     const { photo } = req.files;
@@ -52,6 +53,15 @@ class UserController {
       await User.findOneAndUpdate({ _id }, { photo: PATH_TO_PHOTO });
 
       return res.status(200).json({ message: "Success" });
+    } catch (error) {
+      return res.status(500).json({ message: error });
+    }
+  }
+
+  async logOut(req, res) {
+    try {
+      res.cookie("token", "", { maxAge: -1 });
+      return res.status(200).json({});
     } catch (error) {
       return res.status(500).json({ message: error });
     }

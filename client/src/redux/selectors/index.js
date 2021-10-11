@@ -8,6 +8,7 @@ export const adminka = (state) => state.admin;
 export const brandsSelector = (state) => state.device.brands;
 export const categorysSelector = (state) => state.device.category;
 export const devicesSelector = (state) => state.device.devices;
+export const devicesLoadingSelector = (state) => state.device.loading;
 export const activeDeviceSelector = (state) =>
   get(state, "device.activeDevice", {
     _id: "",
